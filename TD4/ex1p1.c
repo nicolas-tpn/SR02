@@ -11,9 +11,10 @@ int copierfichier(int f1, int f2) // copier le contenu du fichier f1 à f2, la f
     {
         if ((octetslus = read(f1, buf, BLKSIZE)) <= 0) // copier le cotenu du f1 dans la tableau de caractères buf
             break;
-        if ((octetsecri=write(f2, buf, octetslus)) == -1)// écrire le contenu du tableau buf dans f2
+        if ((octetsecri = write(f2, buf, octetslus)) == -1) // écrire le contenu du tableau buf dans f2
             break;
         totaloct += octetsecri; // Ajouter le nombre d'octets lus à chaque tour au précédent
     }
+    
     return totaloct;
 }

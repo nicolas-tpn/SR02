@@ -1,26 +1,36 @@
 #include "sem_pv.h"
 
+#define N_SEM 5
+
+union semun {
+	int val;
+	struct semid_ds *buf;
+	ushort *array;
+};
+
+
+static struct sembuf op_P = {-1, -1, 0};
+static struct sembuf op_V = {-1, 1, 0};
+
+static int semid = -1; 
 
 int init_semaphore(void) {
+	
+	union semun arg;
+	arg.val = 0;
 
 	if (semid != -1) {
 		fprintf(stderr, "Init deja appele\n" );
 		return -1;
 	}
 
-	if (semid = semget(IPC_PRIVATE, N_SEM, 0666) == -1) {
+	if ((semid = semget(IPC_PRIVATE, N_SEM, 0600)) == -1) {
 		fprintf(stderr, "Echec de semget");
 		return -2; 
-	} 
-	
-	union semun arg;
-	arg.val = 0;
+	}
 
 	for (int i = 0; i<N_SEM; i++) {
-		if (semctl(semid, i, SETVAL, arg) == -1)  {
-			fprintf(stderr, "Echec de semctl");
-			return -2; 
-		} 
+		semctl(semid, i, SETVAL, arg);
 	}
 
 	return 0;
@@ -28,12 +38,14 @@ int init_semaphore(void) {
 
 int detruire_semaphore(void) {
 	
+	int val;
+
 	if (semid == -1) {
 		fprintf(stderr, "Init jamais appele\n" );
 		return -1;
 	} 
 
-	int val = semctl(semid, 0, IPC_RMID, 0);
+	val = semctl(semid, 0, IPC_RMID, 0);
 	semid = -1;
 
 	return val;
@@ -55,13 +67,7 @@ int val_sem(int sem, int val) {
 	union semun arg;
 	arg.val = val;
 
-	int return_value;
-	if (return_value = semctl(semid, sem, SETVAL, arg) == -1) {
-		fprintf(stderr, "Erreur semctl\n");
-		return -2;
-	}
-
-	return return_value;
+	return semctl(semid, sem, SETVAL, arg);
 }
 
 int P(int sem) {
@@ -78,13 +84,7 @@ int P(int sem) {
 
 	op_P.sem_num = sem;
 
-	int return_value;
-	if (return_value = semop(semid, &op_P, 1) == -1) {
-		fprintf(stderr, "Echec de semop");
-		return -2;
-	}
-
-	return return_value;
+	return semop(semid, &op_P, 1);
 }
 
 int V(int sem) {
@@ -101,15 +101,5 @@ int V(int sem) {
 
 	op_V.sem_num = sem;
 
-	int return_value; 
-	if (return_value = semop(semid, &op_V, 1) == -1) {
-		fprintf(stderr, "Echec de semop");
-		return -2;
-	}
-
-	return return_value;
-}
-
-int main () {
-	return 0;
+	return semop(semid, &op_V, 1);
 }

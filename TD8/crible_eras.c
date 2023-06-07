@@ -5,6 +5,8 @@
 
 int main (int argc, char* argv []) {
 
+	/* Tache 2 */
+
 	/* Implémentation du crible en version séquentielle*/
 	int input;
 	printf("Veuillez entrer la taille du crible : \n");
@@ -32,16 +34,15 @@ int main (int argc, char* argv []) {
 		}
 	}
 
-	printf("Les %d premiers nombre premiers sont : \n", input);
+	printf("Les %d premiers nombres premiers sont : \n", input);
 	for (int k = 2; k<input; k++) {
 		if (array[k] == 1) {
 			printf("%d\n", k);
 		}
 	}
 
+	/* Fin Tache 2 */
 
-
-
-
+	
 	return 0;
 }

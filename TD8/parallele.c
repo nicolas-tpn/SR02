@@ -11,7 +11,7 @@ struct data_thread {
 	pthread thread;
 	int lower_bound;
 	int upper_bound;
-	int index;
+	int index;  // M : c'est bien i ?
 };
 
 void creat_thread(int k, int nb_max);
@@ -22,10 +22,12 @@ data_thread thread_array[MAX];
 int array[MAX];
 
 void thread_execution(data_thread arg) {
-	int temp_index = lower_bound;
+	int temp_index = lower_bound; // M :lower_bound c'est pas une variable globale
+	//faudrait pas mettre arg.lower_bound plutôt ?
 
 	while (temp_index <= arg.upper_bound) {
-		array[temp_index] = 0;
+		// on met à faux les valeurs du tableau concernées 
+		array[temp_index] = 0;     
 		temp_index += arg.index;
 	}
 }
@@ -36,7 +38,7 @@ void creat_thread(int k, int nb_max) {
 			//on créé nb_max threads
 			for (int i = 0; i<nb_max; i++) {
 				if ((pthread_create(&(thread_array[i].thread), NULL, void *thread_execution, data_thread *arg))) {
-					fprintf(stderr, "pthread_create error");
+					fprintf(stderr, "pthread_create error \n");
 					exit(EXIT_FAILURE);
 				}
 			}
@@ -47,7 +49,7 @@ void creat_thread(int k, int nb_max) {
 			//on créé k threads
 			for (int i = 0; i<k; i++) {
 				if ((pthread_create(&(thread_array[i].thread), NULL, void *thread_execution, data_thread *arg))) {
-					fprintf(stderr, "pthread_create error");
+					fprintf(stderr, "pthread_create error \n");
 					exit(EXIT_FAILURE);
 				}
 			}
@@ -81,7 +83,9 @@ int main (int argc, char* argv []) {
 			int thread_array_curser = 0; // vient parcourir le tableau de thread entre 0 et k
 			int pow = i*i;
 			int seg = n-pow;
-			seg = seg/k;
+			seg = seg/k; 
+			// M : j'aurais d'abord fait seg = seg/i pour avoir le nombre d'élem
+			//et ensuite seg = seg / k (ou seg = seg / (i*k) )
 
 			int bound = pow;
 			int temp_bound = 0;
@@ -89,7 +93,8 @@ int main (int argc, char* argv []) {
 				thread_array[thread_array_curser].lower_bound = bound;
 				bound += seg;
 				if (bound > n) break;
-				/* Il va y avoir un problème ici, pour avoir la borne supérieur on ne va pas forcément tomber sur une des valeurs que l'on veut (càd i²+ki), à solutionner*/
+				/* Il va y avoir un problème ici, pour avoir la borne supérieur 
+				on ne va pas forcément tomber sur une des valeurs que l'on veut (càd i²+ki), à solutionner*/
 				/* Tentative de solution mais vraiment pas sûr*/
 				temp_bound = bound - pow;
 				if (temp_bound%i != 0) {

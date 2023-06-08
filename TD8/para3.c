@@ -6,17 +6,18 @@
 
 #define MAX 10000
 
-typedef struct data_thread data_thread;
+
 struct data_thread {
-	pthread thread;
+	pthread_t thread;
 	int numero;
 	int lower_bound;
 	int upper_bound;
 	int index;  
 };
+typedef struct data_thread data_thread;
 
 void creat_thread(int k, int nb_max);
-void thread_execution(data_thread arg);
+void *thread_execution(data_thread arg);
 
 int k, n;
 data_thread thread_array[MAX];
@@ -25,14 +26,19 @@ pthread_mutex_t mutex;
 pthread_cond_t condition;
 int activeThreads; // Nombre de threads actifs
 
-void* thread_execution(data_thread arg) {
+void* thread_execution(void *num) {
+	int lower_bound;
+	int upper_bound;
 	for (int i = 2; i< sqrt(n); i++) {
 		//Calcul slices 
-		int elements = ceil((n-(i*i))/i)
-		arg.lower_bound = i*i + (arg.numero - 1)*elements/k;
-		arg.upper_bound = i*i + (arg.numero)*elements/k;
-		printf("Thread numero %d : [%d; %d] \n",numero,arg.lower_bound,arg.upper_bound);
+		intptr_t nu = (intptr_t)num;
+		int elements = ceil((n-(i*i))/i);
+		//printf("\n elements %d\n",elements);
+		lower_bound = i*i + (nu - 1)*elements/k;
+		upper_bound = i*i + n*elements/k;
+		printf("Thread numero %d : [%d; %d] \n",nu,lower_bound,upper_bound);
 	}
+	return NULL;
 	
 }
 
@@ -43,13 +49,14 @@ void creat_thread(int k, int nb_max) {
 
     activeThreads = k;
     int tmp;
-		
+	int numero;
 	if (k > nb_max) {
 		//on créé nb_max threads
 		for (int i = 0; i<nb_max; i++) {
-			thread_array[i].numero = i + 1;
+			numero = i + 1;
+			printf("\n creation de thread opt 1\n");
 
-			if ((pthread_create(&(thread_array[i].thread), NULL, void *thread_execution, data_thread *arg))) {
+			if ((pthread_create(&(thread_array[i].thread), NULL, thread_execution, (void*) numero))) {
 				fprintf(stderr, "pthread_create error \n");
 				exit(EXIT_FAILURE);
 			}
@@ -58,9 +65,10 @@ void creat_thread(int k, int nb_max) {
 	} else {
 		//on créé k threads
 		for (int i = 0; i<k; i++) {
-			thread_array[i].numero = i + 1;
+			numero = i + 1;
+			printf("\n creation de thread opt 2\n");
 
-			if ((pthread_create(&(thread_array[i].thread), NULL, void *thread_execution, data_thread *arg))) {
+			if ((pthread_create(&(thread_array[i].thread), NULL, thread_execution, (void*) numero))) {
 				fprintf(stderr, "pthread_create error \n");
 				exit(EXIT_FAILURE);
 			}
@@ -80,8 +88,8 @@ int main (int argc, char* argv []) {
 		return -1;
 	}
 
-	n = argv[1];
-	k = argv[2];
+	n = atoi(argv[1]);
+	k = atoi(argv[2]);
 	
 	// Initialisation du tableau booléen (1 pour vrai, 0 pour faux)
 	for (int i = 2; i<n; i++) {

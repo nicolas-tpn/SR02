@@ -18,7 +18,7 @@ void creat_thread(int k, int nb_max);
 void thread_execution(data_thread arg);
 
 int k, n;
-data_thread thread_array[MAX]
+data_thread thread_array[MAX];
 int array[MAX];
 
 void thread_execution(data_thread arg) {
@@ -89,7 +89,7 @@ int main (int argc, char* argv []) {
 				thread_array[thread_array_curser].lower_bound = bound;
 				bound += seg;
 				if (bound > n) break;
-				/* Il va y avoir un problème ici, pour avoir la borne supérieur on ne va pas forcément tombre sur une des valeurs que l'on veut (càd i²+ki), à solutionner*/
+				/* Il va y avoir un problème ici, pour avoir la borne supérieur on ne va pas forcément tomber sur une des valeurs que l'on veut (càd i²+ki), à solutionner*/
 				/* Tentative de solution mais vraiment pas sûr*/
 				temp_bound = bound - pow;
 				if (temp_bound%i != 0) {

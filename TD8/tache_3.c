@@ -4,13 +4,14 @@
 #include <math.h>
 #include <pthread.h>
 
-#define MAX 10000
+#define MAX 8000000
+#define K 7
 
 void creat_thread(int k, int nb_max);
 void *thread_execution(void *num);
 
 int k, n;
-pthread_t thread_array[MAX];
+pthread_t thread_array[K];
 
 int array[MAX];
 

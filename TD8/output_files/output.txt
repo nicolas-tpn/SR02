@@ -1,0 +1,7 @@
+Mean exec, N = 1000, 1 thread(s) --> .0005222 sec
+Mean exec, N = 1000, 2 thread(s) --> .0007420 sec
+Mean exec, N = 1000, 3 thread(s) --> .0008572 sec
+Mean exec, N = 1000, 4 thread(s) --> .0009312 sec
+Mean exec, N = 1000, 5 thread(s) --> .0011074 sec
+Mean exec, N = 1000, 6 thread(s) --> .0015246 sec
+Mean exec, N = 1000, 7 thread(s) --> .0017282 sec

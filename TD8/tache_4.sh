@@ -1,7 +1,7 @@
 #!/bin/bash
 
-iterations=10
-N=5000000
+read -p "Taille du crible : " N
+read -p "Nombre d'itérations : " iterations
 
 for ((NUM_THREADS=1; NUM_THREADS<=7; NUM_THREADS++))
 do
@@ -14,5 +14,5 @@ sum=$(cat time_exe.txt | awk '{ sum += $1 } END { print sum }')
 count=$(cat time_exe.txt | wc -l)
 mean=$(echo "scale=7; $sum / $count" | bc)
 
-echo "Mean exec (100 iterations), N = $N, $NUM_THREADS thread(s) --> $mean sec" >> output.txt
+echo "Mean exec, N = $N, $NUM_THREADS thread(s) --> $mean sec" >> output.txt
 done

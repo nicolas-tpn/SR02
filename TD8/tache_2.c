@@ -21,15 +21,6 @@ int main (int argc, char* argv []) {
 
     input = atoi(argv[1]);
 
-    /*
-	printf("Veuillez entrer la taille du crible : \n");
-	scanf("%d", &input);
-
-	if (input<1) {
-		fprintf(stderr, "Le nombre entre doit etre superieur a 1\n");
-		return -1;
-	}
-	*/
 	start = clock();
 
 	int array[input];
@@ -49,7 +40,6 @@ int main (int argc, char* argv []) {
 		}
 	}
 
-	//printf("Les %d premiers nombres premiers sont : \n", input);
 	for (int k = 2; k<input; k++) {
 		if (array[k] == 1) {
 			printf("%d\n", k);

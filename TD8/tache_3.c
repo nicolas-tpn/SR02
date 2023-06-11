@@ -5,42 +5,29 @@
 #include <pthread.h>
 #include <time.h>
 
-#define MAX 10000000
-#define K 7
-
 void creat_thread(int k, int nb_max);
 void *thread_execution(void *num);
-int max(int nb_1, int nb_2);
 
 clock_t start, end;
 double cpu_time_used;
-
+int compteur = 0;
 int k, n;
-pthread_t thread_array[K];
-
-int array[MAX];
-
-int min(int nb_1, int nb_2) {
-    return (nb_1 < nb_2) ? nb_1 : nb_2;
-}
+pthread_t *thread_array;
+int *array;
 
 void* thread_execution(void *num) {
 	int lower_bound;
 	int upper_bound;
-	int* value = (int*)num;
+	int value = *(int*)num;
 	
-	for (int j = 2; j<=floor(sqrt(n)); j++) {
+	for (int j = 2; j<(sqrt(n)); j++) {
 		//Calcul slices 
-		int nb_elem = ceil((n-(j*j))/j);
-		int chunk = ceil(n-(j*j)/k);
+		int nb_elem = ceil(((n)-(j*j))/j);
 		
-		lower_bound = j*j + (*value)*chunk;
-		upper_bound = j*j + (*value+1)*chunk;
-		upper_bound = min(upper_bound, n);
-		// Ligne pour debug/verification des valeurs des bornes
-		//printf("Thread numero %d : [%d; %d] \n",*value, lower_bound, upper_bound);
+		lower_bound = ceil(j*j + (nb_elem*(value)/k)*j);
+		upper_bound = ceil(j*j + (nb_elem*(value + 1)/k)*j);
 		
-		for (int h = lower_bound; h<upper_bound; h+=j) {
+		for (int h = lower_bound; h<=upper_bound; h+=j) {
 			array[h] = 0;	
 		}
 	}
@@ -85,8 +72,11 @@ int main (int argc, char* argv[]) {
         return 1;
     }
 
-    k = atoi(argv[1]);
+    k = atof(argv[1]);
     n = atoi(argv[2]);
+
+    array = malloc((n+1)*sizeof(int));
+    thread_array = malloc((k)*sizeof(pthread_t));
 	
 	/*
 	printf("Nombre de thread implques? (entre 1 et 7) :");
@@ -115,13 +105,14 @@ int main (int argc, char* argv[]) {
 	for (int l = 2; l<n; l++) {
 		if (array[l] == 1) {
 			printf("%d\n", l);
+			compteur++;
 		}
 	}
 
 	end = clock();
 	cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
 	//printf("%f \n", cpu_time_used);
-
-	return cpu_time_used;
+	printf("\n%d\n", compteur);
+	return 0;
 
 }

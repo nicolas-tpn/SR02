@@ -12,6 +12,7 @@ int main (int argc, char* argv []) {
 	int input;
 	clock_t start,end;
 	double cpu_time_used;
+	int compteur = 0;
 
 	if (argc < 2) {
         printf("Veuillez fournir deux valeurs en argument.\n");
@@ -51,7 +52,8 @@ int main (int argc, char* argv []) {
 	//printf("Les %d premiers nombres premiers sont : \n", input);
 	for (int k = 2; k<input; k++) {
 		if (array[k] == 1) {
-			//printf("%d\n", k);
+			printf("%d\n", k);
+			compteur ++;
 		}
 	}
 
@@ -60,7 +62,8 @@ int main (int argc, char* argv []) {
 
 	/* Fin Tache 2 */
 	printf("%f \n", cpu_time_used);
+	printf("\n%d\n", compteur);
 
 
-	return cpu_time_used;
+	return 0;
 }

@@ -1,0 +1,7 @@
+Mean exec (100 iterations), N = 5000000, 1 thread(s) --> .4744000 sec
+Mean exec (100 iterations), N = 5000000, 2 thread(s) --> .3917980 sec
+Mean exec (100 iterations), N = 5000000, 3 thread(s) --> .3888320 sec
+Mean exec (100 iterations), N = 5000000, 4 thread(s) --> .4111330 sec
+Mean exec (100 iterations), N = 5000000, 5 thread(s) --> .4190570 sec
+Mean exec (100 iterations), N = 5000000, 6 thread(s) --> .3875170 sec
+Mean exec (100 iterations), N = 5000000, 7 thread(s) --> .3916570 sec

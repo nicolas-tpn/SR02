@@ -2,6 +2,7 @@
 #include <sys/types.h>
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>
 
 int main (int argc, char* argv []) {
 
@@ -9,6 +10,17 @@ int main (int argc, char* argv []) {
 
 	/* Implémentation du crible en version séquentielle*/
 	int input;
+	clock_t start,end;
+	double cpu_time_used;
+
+	if (argc < 2) {
+        printf("Veuillez fournir deux valeurs en argument.\n");
+        return 1;
+    }
+
+    input = atoi(argv[1]);
+
+    /*
 	printf("Veuillez entrer la taille du crible : \n");
 	scanf("%d", &input);
 
@@ -16,6 +28,8 @@ int main (int argc, char* argv []) {
 		fprintf(stderr, "Le nombre entre doit etre superieur a 1\n");
 		return -1;
 	}
+	*/
+	start = clock();
 
 	int array[input];
 	
@@ -34,15 +48,19 @@ int main (int argc, char* argv []) {
 		}
 	}
 
-	printf("Les %d premiers nombres premiers sont : \n", input);
+	//printf("Les %d premiers nombres premiers sont : \n", input);
 	for (int k = 2; k<input; k++) {
 		if (array[k] == 1) {
-			printf("%d\n", k);
+			//printf("%d\n", k);
 		}
 	}
 
-	/* Fin Tache 2 */
+	end = clock();
+	cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
 
-	
-	return 0;
+	/* Fin Tache 2 */
+	printf("%f \n", cpu_time_used);
+
+
+	return cpu_time_used;
 }

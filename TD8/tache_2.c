@@ -15,7 +15,7 @@ int main (int argc, char* argv []) {
 	int compteur = 0;
 
 	if (argc < 2) {
-        printf("Veuillez fournir deux valeurs en argument.\n");
+        printf("Veuillez fournir un entier n en argument.\n");
         return 1;
     }
 

@@ -25,7 +25,7 @@ int main (int argc, char* argv []) {
 
 	int array[input];
 	
-	// initialisation du tableau booléen (1 pour vrai, 0 pour faux)
+	// Initialisation du tableau booléen (1 pour vrai, 0 pour faux)
 	for (int i = 2; i<input; i++) {
 		array[i] = 1;
 	}

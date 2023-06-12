@@ -24,13 +24,18 @@ void *thread_execution(void *num) {
 	for (int j = 2; j < sqrt(n); j++) {
 
 		//Calcul slices 
-		int nb_elem = ceil((n-(j*j))/j);
+		int nb_elem = ceil(((n+1)/2-(j*j))/j);
 		
 		lower_bound = ceil(j * j + (nb_elem * value / k) * j);
 		upper_bound = ceil(j * j + (nb_elem * (value + 1) / k) * j);
-		
-		for (int h = (lower_bound-3)/2; h <= (upper_bound-1)/2; h += 2*j+3) {
-			array[h] = 0;	
+		//printf("%d , %d\n", lower_bound/2, upper_bound/2);
+		int tmp = value-1;
+		for (int h = lower_bound; h <= upper_bound; h += 2*j) {
+			
+			array[h] = 0;
+			printf("\n h = %d \n",tmp);
+			tmp++;
+			
 		}
 	}
 
@@ -64,7 +69,7 @@ int main (int argc, char* argv[]) {
     k = atoi(argv[1]);
     n = atoi(argv[2]);
 
-    array = malloc(((n+1)/2)*sizeof(int));
+    array = malloc(ceil((n+1)/2)*sizeof(int));
     thread_array = malloc((k)*sizeof(pthread_t));
 	
 	start = clock();
@@ -85,7 +90,8 @@ int main (int argc, char* argv[]) {
 	for (int l = 2; l < (n+1)/2; l++) {
 		if (array[l] == 1) {
 			// Vérification des valeurs des nombres premiers
-			printf("%d\n", 2*l+3);
+			printf(" 2l + 3 :%d\n", 2*l+3);
+			printf("l : %d\n", l);
 			compteur++;
 		}
 	}

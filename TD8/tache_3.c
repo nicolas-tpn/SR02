@@ -5,7 +5,7 @@
 #include <pthread.h>
 #include <time.h>
 
-void creat_thread(int k, int nb_max);
+void creat_thread(int k);
 void *thread_execution(void *num);
 
 clock_t start, end;
@@ -37,7 +37,7 @@ void *thread_execution(void *num) {
 
 }
 
-void creat_thread(int k, int nb_max) {
+void creat_thread(int k) {
 	//on créé k threads
 	for (int i = 0; i<k; i++) {
 		int* numero = malloc(sizeof(int));
@@ -71,8 +71,8 @@ int main (int argc, char* argv[]) {
 		array[i] = 1;
 	}
 	// Création des threads
-	double nb_elements_max = ceil((n-4)/2);
-	creat_thread(k, nb_elements_max);
+	
+	creat_thread(k);
 
 	for (int w = 0; w < k; w++) {
 		pthread_join(thread_array[w], NULL);

@@ -3,6 +3,9 @@
 read -p "Taille du crible : " N
 read -p "Nombre d'itérations : " iterations
 
+>output_files/output.txt
+>output_files/time_exe.txt
+
 for ((NUM_THREADS=1; NUM_THREADS<=7; NUM_THREADS++))
 do
 for (( i=1; i<=$iterations; i++ ))

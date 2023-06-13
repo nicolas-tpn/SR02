@@ -23,7 +23,7 @@ int main (int argc, char* argv []) {
 
 	start = clock();
 
-	int array[input];
+	int *array = malloc(input*sizeof(int));
 	
 	// Initialisation du tableau booléen (1 pour vrai, 0 pour faux)
 	for (int i = 2; i<input; i++) {
@@ -43,7 +43,7 @@ int main (int argc, char* argv []) {
 
 	for (int k = 2; k<input; k++) {
 		if (array[k] == 1) {
-			printf("%d\n", k);
+			//printf("%d\n", k);
 			compteur ++;
 		}
 	}
@@ -52,7 +52,7 @@ int main (int argc, char* argv []) {
 
 	/* Fin Tache 2 */
 	printf("%f \n", cpu_time_used);
-	printf("\n%d\n", compteur);
+	//printf("\n%d\n", compteur);
 
 
 	return 0;

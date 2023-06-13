@@ -77,6 +77,7 @@ int main (int argc, char* argv[]) {
 	for (int w = 0; w < k; w++) {
 		pthread_join(thread_array[w], NULL);
 	}
+	end = clock();
 
 	//printf("Les nombres premiers nombres presents avant %d sont : \n", n);
 	for (int l = 2; l < n; l++) {
@@ -90,7 +91,6 @@ int main (int argc, char* argv[]) {
 	// Verification du nombre de nombres premiers
 	//printf("\n Il y a %d nombres premiers", compteur);
 
-	end = clock();
 	cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
 	printf("%f\n", cpu_time_used);
 	return 0;

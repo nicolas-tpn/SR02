@@ -10,7 +10,7 @@ for ((NUM_THREADS=1; NUM_THREADS<=7; NUM_THREADS++))
 do
 for (( i=1; i<=$iterations; i++ ))
 do
-  ./tache_3 $NUM_THREADS $N
+  ./exec/tache_3 $NUM_THREADS $N
 done > output_files/time_exe.txt
 
 sum=$(cat output_files/time_exe.txt | awk '{ sum += $1 } END { print sum }')

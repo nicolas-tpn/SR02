@@ -5,7 +5,7 @@
 #include <pthread.h>
 #include <time.h>
 
-void creat_thread(int k, int nb_max);
+void creat_thread(int k);
 void *thread_execution(void *num);
 
 clock_t start, end;
@@ -24,14 +24,14 @@ void *thread_execution(void *num) {
 	/* boucle avec un pas de 2i */
 	for (int j = 2; j < sqrt(n); j++) {
 
-		//Calcul slices 
+		//Calcul des tranches (slices)
 		int nb_elem = ceil((n-(j*j))/j);
 		
 		lower_bound = ceil(j * j + (nb_elem * value / k) * j);
 		upper_bound = ceil(j * j + (nb_elem * (value + 1) / k) * j);
 		
 
-		for (int h = lower_bound; h <= upper_bound; h += j ) {
+		for (int h = lower_bound; h <= upper_bound; h += j) {
 			if (h%2 != 0){
 				int e;
 				e = (h/2) - 1;
@@ -47,11 +47,9 @@ void *thread_execution(void *num) {
 
 }
 
-//2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, et 97.
-
-void creat_thread(int k, int nb_max) {
+void creat_thread(int k) {
 	//on créé k threads
-	for (int i = 0; i<k; i++) {
+	for (int i = 0; i < k; i++) {
 		int* numero = malloc(sizeof(int));
 		*numero = i;
 		if ((pthread_create(&(thread_array[i]), NULL, thread_execution, numero))) {
@@ -73,22 +71,22 @@ int main (int argc, char* argv[]) {
     k = atoi(argv[1]);
     n = atoi(argv[2]);
 
-    array = malloc(((n+1)/2)*sizeof(int));
-    thread_array = malloc((k)*sizeof(pthread_t));
+    array = malloc(((n+1)/2) * sizeof(int));
+    thread_array = malloc(k * sizeof(pthread_t));
 	
 	start = clock();
 
 	// Initialisation du tableau booléen (1 pour vrai, 0 pour faux)
-	array[0] = 1; //3
-	array[1] = 1; //5
-	array[2] = 1; //7
-	for (int i = 3; i<(n+1)/2; i++) {
+	array[0] = 1; // 2
+	array[1] = 1; // 3
+	array[2] = 1; // 5
+	// Les autres éléments du tableau sont initialisés à 1 par défaut
+	for (int i = 3; i < (n+1)/2; i++) {
 		array[i] = 1;
 	}
 	
 	// Création des threads
-	double nb_elements_max = ceil((n-4)/2);
-	creat_thread(k, nb_elements_max);
+	creat_thread(k);
 
 	for (int w = 0; w < k; w++) {
 		pthread_join(thread_array[w], NULL);
@@ -104,14 +102,11 @@ int main (int argc, char* argv[]) {
 		}
 	}
 	
-	
-
-	// Verification du nombre de nombres premiers
+	// Vérification du nombre de nombres premiers
 	printf("\nIl y a %d nombres premiers\n", compteur);
 
 	end = clock();
 	cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
 	printf("%f\n", cpu_time_used);
 	return 0;
-
 }

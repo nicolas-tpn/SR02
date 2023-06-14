@@ -5,7 +5,7 @@
 #include <pthread.h>
 #include <time.h>
 
-void creat_thread(int k, int nb_max);
+void creat_thread(int k);
 void *thread_execution(void *num);
 
 clock_t start, end;
@@ -25,7 +25,6 @@ void *thread_execution(void *num) {
 	
 	lower_bound = ceil(2 * 2 + (nb_elem * value / k) * 2);
 	upper_bound = ceil(2 * 2 + (nb_elem * (value + 1) / k) * 2);
-	printf("[%d ; %d]\n", lower_bound, upper_bound);
 	
 	for (int h = lower_bound; h <= upper_bound; h += 2) {
 		array[h] = 0;	
@@ -49,9 +48,9 @@ void *thread_execution(void *num) {
 
 }
 
-void creat_thread(int k, int nb_max) {
+void creat_thread(int k) {
 	//on créé k threads
-	for (int i = 0; i<k; i++) {
+	for (int i = 0; i < k; i++) {
 		int* numero = malloc(sizeof(int));
 		*numero = i;
 		if ((pthread_create(&(thread_array[i]), NULL, thread_execution, numero))) {
@@ -73,34 +72,30 @@ int main (int argc, char* argv[]) {
     k = atoi(argv[1]);
     n = atoi(argv[2]);
 
-    array = malloc((n+1)*sizeof(int));
-    thread_array = malloc((k)*sizeof(pthread_t));
+    array = malloc((n+1) * sizeof(int));
+    thread_array = malloc(k * sizeof(pthread_t));
 	
 	start = clock();
 
 	// Initialisation du tableau booléen (1 pour vrai, 0 pour faux)
-	for (int i = 2; i<n; i++) {
+	for (int i = 2; i < n; i++) {
 		array[i] = 1;
 	}
+
 	// Création des threads
-	double nb_elements_max = ceil((n-4)/2);
-	creat_thread(k, nb_elements_max);
+	creat_thread(k);
 
 	for (int w = 0; w < k; w++) {
 		pthread_join(thread_array[w], NULL);
 	}
 
-	//printf("Les nombres premiers nombres presents avant %d sont : \n", n);
+	// Affichage des nombres premiers
 	for (int l = 2; l < n; l++) {
 		if (array[l] == 1) {
-			// Vérification des valeurs des nombres premiers
 			printf("%d\n", l);
 			compteur++;
 		}
 	}
-
-	// Verification du nombre de nombres premiers
-	//printf("\n Il y a %d nombres premiers", compteur);
 
 	end = clock();
 	cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;

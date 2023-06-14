@@ -8,7 +8,7 @@ read -p "Nombre d'itérations : " iterations
 
 for (( i=1; i<=$iterations; i++ ))
 do
-  ./tache_2 $N
+  ./exec/tache_2 $N
 done > output_files/time_exe_seq.txt
 
 sum=$(cat output_files/time_exe_seq.txt | awk '{ sum += $1 } END { print sum }')
